@@ -11,10 +11,10 @@ public class BuscarCotacaoRequestHandler(ICotacaoRepository repository) : IReque
         Result<Cotacao> result = await repository.FindAsync(request.Id);
         return result
             .EnsureNotNull("Cotação não encontrada.")
-            .MapTry(p=> new BuscarCotacaoResponse(p.Id, p.Numero, p.DataCriacao));
+            .MapTry(c => new BuscarCotacaoResponse(c.Id, c.Numero, c.DataCotacaoSolicitada));
     }
 }
 
 public record BuscarCotacaoRequest(int Id) : IRequest<Result<BuscarCotacaoResponse>>;
 
-public record BuscarCotacaoResponse(int Id, string Numero, DateTime DataCriacao);
+public record BuscarCotacaoResponse(int Id, string Numero, DateTime DataCotacaoSolicitada);

@@ -21,4 +21,11 @@ public class CotacoesController(IMediator mediator, ILogger<CotacoesController> 
         var response = await mediator.Send(request);
         return response;
     }
+
+    [HttpPost("{id}/SolicitarRenda")]
+    public async Task<SolicitarRendaResponse> SolicitarRenda(int id, SolicitarRendaRequest request)
+    {
+        var response = await mediator.Send(new SolicitarRendaRequest(id, request.CorretorId));
+        return response;
+    }
 }

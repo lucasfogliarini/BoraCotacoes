@@ -1,6 +1,0 @@
-@BoraCotacoes.WebApi_HostAddress = http://localhost:5287
-
-GET {{BoraCotacoes.WebApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
