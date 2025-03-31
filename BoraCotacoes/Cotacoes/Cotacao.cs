@@ -15,8 +15,13 @@ namespace BoraCotacoes
         public decimal PrecoDoBem { get; private set; }
         public int ClienteId { get; private set; }
 
-        public int CorretorId { get; private set; }
         public DateTime DataRendaSolicitada { get; private set; }
+        public int CorretorId { get; private set; }
+
+
+        public DateTime DataCompromissoFinanceiroInformado { get; private set; }
+        public decimal RendaBrutaMensal { get; private set; }
+        public decimal PrestacaoEstimada { get; private set; }
 
         private Cotacao() { }
 
@@ -35,6 +40,14 @@ namespace BoraCotacoes
             DataRendaSolicitada = DateTime.UtcNow;
             Status = CotacaoStatus.RendaSolicitada;
             CorretorId = corretorId;
+        }
+
+        public void InformarCompromissoFinanceiro(decimal rendaBrutaMensal, decimal prestacaoEstimada)
+        {
+            DataCompromissoFinanceiroInformado = DateTime.UtcNow;
+            Status = CotacaoStatus.CompromissoFinanceiroInformado;
+            RendaBrutaMensal = rendaBrutaMensal;
+            PrestacaoEstimada = prestacaoEstimada;
         }
 
         private string GenerateNumero() => $"COT-{DateTime.UtcNow:yyyyMMddHHmmss}-{new Random().Next(1000, 9999)}";
