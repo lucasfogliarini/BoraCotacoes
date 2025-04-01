@@ -1,5 +1,6 @@
 ﻿using BoraCotacoes.Cotacoes;
 using BoraCotacoes.Propostas;
+using CSharpFunctionalExtensions;
 using System.Threading.Tasks.Sources;
 
 namespace BoraCotacoes
@@ -22,6 +23,12 @@ namespace BoraCotacoes
         public DateTime DataCompromissoFinanceiroInformado { get; private set; }
         public decimal RendaBrutaMensal { get; private set; }
         public int PrazoPretendido { get; private set; }
+
+        public DateTime DataPrestacoesCalculadas { get; private set; }
+        public decimal TaxaJuros { get; private set; }
+        public int PrazoMaximo { get; private set; }
+        public decimal PrestacaoPrazoPretendido { get; private set; }
+        public decimal PrestacaoPrazoMaximo { get; private set; }
 
         private Cotacao() { }
 
@@ -50,14 +57,27 @@ namespace BoraCotacoes
             PrazoPretendido = prazoPretendido;
         }
 
-        private string GenerateNumero() => $"COT-{DateTime.UtcNow:yyyyMMddHHmmss}-{new Random().Next(1000, 9999)}";
+        public Result CalcularPrestacoes(decimal taxaJuros, int prazoMaximo)
+        {
+            return Result.Success()
+                    .Ensure(() => taxaJuros > 0, "A taxa de juros deve ser maior que zero.")
+                    .Ensure(()=> prazoMaximo > 0, "O prazo máximo deve ser maior que zero.")
+                    .Tap(() =>
+                    {
+                        DataPrestacoesCalculadas = DateTime.UtcNow;
+                        TaxaJuros = taxaJuros;
+                        PrazoMaximo = prazoMaximo;
+                        PrestacaoPrazoPretendido = CalcularPrice(taxaJuros, PrazoPretendido);
+                        PrestacaoPrazoMaximo = CalcularPrice(taxaJuros, PrazoMaximo);
+                    });
+        }
 
-        //private decimal CalcularValorParcela()
-        //{
-        //    Fórmula simples de amortização
-        //    var jurosMensal = TaxaJuros / 100;
-        //    return PrecoDoBem * jurosMensal / (1 - (decimal)Math.Pow(1 + (double)jurosMensal, -Prazo));
-        //}
+        /// <summary>
+        /// //Fórmula de amortização price https://chatgpt.com/?q=TabelaPrice
+        /// </summary>
+        private decimal CalcularPrice(decimal taxaJuros, int prazo) => Preco * taxaJuros / (1 - (decimal)Math.Pow(1 + (double)taxaJuros, -prazo));
+
+        private string GenerateNumero() => $"COT-{DateTime.UtcNow:yyyyMMddHHmmss}-{new Random().Next(1000, 9999)}";       
     }
 
 }

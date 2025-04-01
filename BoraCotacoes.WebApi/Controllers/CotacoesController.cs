@@ -35,4 +35,11 @@ public class CotacoesController(IMediator mediator, ILogger<CotacoesController> 
         var response = await mediator.Send(new InformarCompromissoFinanceiroRequest(id, request.RendaBrutaMensal, request.PrazoPretendido));
         return response;
     }
+
+    [HttpPost("{id}/CalcularPrestacoes")]
+    public async Task<CalcularPrestacoesResponse> CalcularPrestacoes(int id, CalcularPrestacoesRequest request)
+    {
+        var response = await mediator.Send(new CalcularPrestacoesRequest(id, request.TaxaJuros, request.PrazoMaximo));
+        return response;
+    }
 }
