@@ -12,7 +12,7 @@ namespace BoraCotacoes
 
         public DateTime DataCotacaoSolicitada { get; private set; }
         public TipoDoBem TipoDoBem { get; private set; }
-        public decimal PrecoDoBem { get; private set; }
+        public decimal Preco { get; private set; }
         public int ClienteId { get; private set; }
 
         public DateTime DataRendaSolicitada { get; private set; }
@@ -21,18 +21,18 @@ namespace BoraCotacoes
 
         public DateTime DataCompromissoFinanceiroInformado { get; private set; }
         public decimal RendaBrutaMensal { get; private set; }
-        public decimal PrestacaoEstimada { get; private set; }
+        public int PrazoPretendido { get; private set; }
 
         private Cotacao() { }
 
-        public Cotacao(int clienteId, TipoDoBem tipoDoBem, decimal precoDoBem)
+        public Cotacao(int clienteId, TipoDoBem tipoDoBem, decimal preco)
         {
             DataCotacaoSolicitada = DateTime.UtcNow;
             Status = CotacaoStatus.CotacaoSolicitada;
             Numero = GenerateNumero();
             ClienteId = clienteId;
             TipoDoBem = tipoDoBem;
-            PrecoDoBem = precoDoBem;
+            Preco = preco;
         }
 
         public void SolicitarRenda(int corretorId)
@@ -42,12 +42,12 @@ namespace BoraCotacoes
             CorretorId = corretorId;
         }
 
-        public void InformarCompromissoFinanceiro(decimal rendaBrutaMensal, decimal prestacaoEstimada)
+        public void InformarCompromissoFinanceiro(decimal rendaBrutaMensal, int prazoPretendido)
         {
             DataCompromissoFinanceiroInformado = DateTime.UtcNow;
             Status = CotacaoStatus.CompromissoFinanceiroInformado;
             RendaBrutaMensal = rendaBrutaMensal;
-            PrestacaoEstimada = prestacaoEstimada;
+            PrazoPretendido = prazoPretendido;
         }
 
         private string GenerateNumero() => $"COT-{DateTime.UtcNow:yyyyMMddHHmmss}-{new Random().Next(1000, 9999)}";

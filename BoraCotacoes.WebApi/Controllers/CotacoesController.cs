@@ -32,7 +32,7 @@ public class CotacoesController(IMediator mediator, ILogger<CotacoesController> 
     [HttpPost("{id}/InformarCompromissoFinanceiro")]
     public async Task<InformarCompromissoFinanceiroResponse> InformarCompromissoFinanceiro(int id, InformarCompromissoFinanceiroRequest request)
     {
-        var response = await mediator.Send(new InformarCompromissoFinanceiroRequest(id, request.RendaBrutaMensal, request.PrestacaoEstimada));
+        var response = await mediator.Send(new InformarCompromissoFinanceiroRequest(id, request.RendaBrutaMensal, request.PrazoPretendido));
         return response;
     }
 }

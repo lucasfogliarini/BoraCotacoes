@@ -9,13 +9,13 @@ public class CotarRequestHandler(ICotacaoRepository repository) : IRequestHandle
 {
     public async Task<CotarResponse> Handle(CotarRequest request, CancellationToken cancellationToken)
     {
-        var cotacao = new Cotacao(request.ClienteId, request.TipoDoBem, request.PrecoAtualDoBem);
+        var cotacao = new Cotacao(request.ClienteId, request.TipoDoBem, request.Preco);
         repository.Database.Add(cotacao);
         await repository.Database.CommitAsync();
         return new CotarResponse(cotacao.Id, cotacao.Numero, cotacao.Status, cotacao.DataCotacaoSolicitada);
     }
 }
 
-public record CotarRequest(int ClienteId, TipoDoBem TipoDoBem, decimal PrecoAtualDoBem) : IRequest<CotarResponse>;
+public record CotarRequest(int ClienteId, TipoDoBem TipoDoBem, decimal Preco) : IRequest<CotarResponse>;
 
 public record CotarResponse(int Id, string Numero, CotacaoStatus Status, DateTime DataCotacaoSolicitada);
