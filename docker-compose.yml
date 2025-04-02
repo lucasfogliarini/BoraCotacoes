@@ -21,23 +21,25 @@ services:
       - kafka_data:/bitnami/kafka
 
   webapi:
-    build: BoraCotacoes.WebApi
+    build:
+      context: .
+      dockerfile: BoraCotacoes.WebApi/Dockerfile
     container_name: BoraCotacoes.WebApi
     ports:
-      - '5000:5000'
-      - '5001:5001'
+      - "1000:1000"  # HTTP
+      #- "1001:1001"  # HTTPS
     environment:
-      - DOTNET_ENVIRONMENT=Development
-    depends_on:
-      - kafka
-    networks:
-      - kafka-net
+      DOTNET_ENVIRONMENT: Development
+      #ASPNETCORE_URLS: "http://+:1000;https://+:1001"
+      ASPNETCORE_URLS: "http://+:1000;"
 
   consumers:
-    build: BoraCotacoes.Consumers
+    build: 
+      context: .
+      dockerfile: BoraCotacoes.Consumers/Dockerfile
     container_name: BoraCotacoes.Consumers
     ports:
-      - '7071:7071'
+      - '1002:1002'
     environment:
       - AzureWebJobsStorage=UseDevelopmentStorage=true
       - DOTNET_ENVIRONMENT=Development
@@ -49,3 +51,6 @@ services:
 networks:
   kafka-net:
     driver: bridge
+
+volumes:
+  kafka_data:
