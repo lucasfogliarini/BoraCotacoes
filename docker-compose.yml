@@ -41,8 +41,10 @@ services:
     ports:
       - '1002:1002'
     environment:
-      - AzureWebJobsStorage=UseDevelopmentStorage=true
-      - DOTNET_ENVIRONMENT=Development
+      DOTNET_ENVIRONMENT: Development
+      AzureWebJobsStorage: "UseDevelopmentStorage=true"
+      FUNCTIONS_WORKER_RUNTIME: "dotnet-isolated"
+      BrokerList: "kafka:9092"
     depends_on:
       - kafka
     networks:

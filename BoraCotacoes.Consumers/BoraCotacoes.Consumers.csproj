@@ -4,7 +4,6 @@
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="ContratoAssinadoConsumer.cs" />
     <Compile Remove="ContratoCriadoConsumer.cs" />
   </ItemGroup>
   <ItemGroup>
