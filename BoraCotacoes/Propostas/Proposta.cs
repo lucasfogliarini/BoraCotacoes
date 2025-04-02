@@ -1,8 +1,8 @@
 ﻿namespace BoraCotacoes
 {
-    public class Proposta
+    public class Proposta : AggregateRoot
     {
-        public int Id { get; set; }
+        public int CotacaoId { get; set; }
         public string Numero { get; private set; }
         public decimal ValorSolicitado { get; private set; }
         public int Prazo { get; private set; }
@@ -15,12 +15,10 @@
 
         private Proposta() { }
 
-        public Proposta(int clienteId, decimal valorSolicitado, int prazo)
+        public Proposta(int cotacaoId)
         {
             Numero = GenerateNumeroProposta();
-            ValorSolicitado = valorSolicitado;
-            Prazo = prazo;
-            Status = StatusProposta.Solicitada;
+            CotacaoId = cotacaoId;
             DataCriacao = DateTime.UtcNow;
         }
         public void AprovarFinanceiramente(decimal taxaJuros, decimal valorParcela)

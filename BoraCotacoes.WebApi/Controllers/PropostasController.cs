@@ -21,11 +21,4 @@ public class PropostasController(IMediator mediator, ILogger<PropostasController
         var response = await mediator.Send(request);
         return response.Value;
     }
-
-    [HttpPost("aprovarfinanceiramente")]
-    public async Task<AprovarPropostaFinanceiramenteResponse> AprovarFinanceiramente(AprovarPropostaFinanceiramenteRequest request)
-    {
-        var response = await mediator.Send(request);
-        return response.Value;
-    }
 }
