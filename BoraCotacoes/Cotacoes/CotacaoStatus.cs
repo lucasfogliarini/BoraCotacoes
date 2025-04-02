@@ -5,5 +5,7 @@
         CotacaoSolicitada,
         RendaSolicitada,
         CompromissoFinanceiroInformado,
+        PrestacoesCalculadas,
+        CotacaoAprovada
     }
 }

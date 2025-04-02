@@ -30,6 +30,8 @@ namespace BoraCotacoes
         public decimal PrestacaoPrazoPretendido { get; private set; }
         public decimal PrestacaoPrazoMaximo { get; private set; }
 
+        public DateTime DataCotacaoAprovada { get; private set; }
+
         private Cotacao() { }
 
         public Cotacao(int clienteId, TipoDoBem tipoDoBem, decimal preco)
@@ -65,11 +67,18 @@ namespace BoraCotacoes
                     .Tap(() =>
                     {
                         DataPrestacoesCalculadas = DateTime.UtcNow;
+                        Status = CotacaoStatus.PrestacoesCalculadas;
                         TaxaJuros = taxaJuros;
                         PrazoMaximo = prazoMaximo;
                         PrestacaoPrazoPretendido = CalcularPrice(taxaJuros, PrazoPretendido);
                         PrestacaoPrazoMaximo = CalcularPrice(taxaJuros, PrazoMaximo);
                     });
+        }
+
+        public void AprovarCotacao()
+        {
+            DataCotacaoAprovada = DateTime.UtcNow;
+            Status = CotacaoStatus.CotacaoAprovada;
         }
 
         /// <summary>

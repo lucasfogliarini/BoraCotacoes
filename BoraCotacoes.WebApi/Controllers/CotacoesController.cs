@@ -43,4 +43,11 @@ public class CotacoesController(IMediator mediator, ILogger<CotacoesController> 
         var result = await mediator.Send(new CalcularPrestacoesRequest(id, request.TaxaJuros, request.PrazoMaximo));
         return result.Value;
     }
+
+    [HttpPost("{id}/AprovarCotacao")]
+    public async Task<AprovarCotacaoResponse> AprovarCotacao(int id)
+    {
+        var result = await mediator.Send(new AprovarCotacaoRequest(id));
+        return result.Value;
+    }
 }
