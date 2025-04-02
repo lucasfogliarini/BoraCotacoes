@@ -1,21 +1,27 @@
 ﻿using BoraCotacoes.Cotacoes;
 using BoraCotacoes.Propostas.Repository;
+using CSharpFunctionalExtensions;
 using MediatR;
 
 namespace BoraCotacoes.Handlers;
 
-public class InformarCompromissoFinanceiroRequestHandler(ICotacaoRepository repository) : IRequestHandler<InformarCompromissoFinanceiroRequest, InformarCompromissoFinanceiroResponse>
+public class InformarCompromissoFinanceiroRequestHandler(ICotacaoRepository repository) : IRequestHandler<InformarCompromissoFinanceiroRequest, Result<InformarCompromissoFinanceiroResponse>>
 {
-    public async Task<InformarCompromissoFinanceiroResponse> Handle(InformarCompromissoFinanceiroRequest request, CancellationToken cancellationToken)
+    public async Task<Result<InformarCompromissoFinanceiroResponse>> Handle(InformarCompromissoFinanceiroRequest request, CancellationToken cancellationToken)
     {
-        var cotacao = await repository.FindAsync(request.Id);
-        cotacao.InformarCompromissoFinanceiro(request.RendaBrutaMensal, request.PrazoPretendido);
-        repository.Database.Update(cotacao);
-        await repository.Database.CommitAsync();
-        return new InformarCompromissoFinanceiroResponse(cotacao.Id, cotacao.Status, cotacao.DataCompromissoFinanceiroInformado);
+        Result<Cotacao> result = await repository.FindAsync(request.Id);
+        return result
+            .EnsureNotNull("Cotação não encontrada.")
+            .Tap(c =>
+            {
+                c.InformarCompromissoFinanceiro(request.RendaBrutaMensal, request.PrazoPretendido);
+                repository.Database.Update(c);
+                repository.Database.Commit();
+            })
+            .MapTry(c => new InformarCompromissoFinanceiroResponse(c.Id, c.Status, c.DataCompromissoFinanceiroInformado));
     }
 }
 
-public record InformarCompromissoFinanceiroRequest(int Id, decimal RendaBrutaMensal, int PrazoPretendido) : IRequest<InformarCompromissoFinanceiroResponse>;
+public record InformarCompromissoFinanceiroRequest(int Id, decimal RendaBrutaMensal, int PrazoPretendido) : IRequest<Result<InformarCompromissoFinanceiroResponse>>;
 
 public record InformarCompromissoFinanceiroResponse(int Id, CotacaoStatus Status, DateTime DataCompromissoFinanceiroInformado);
