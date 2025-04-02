@@ -7,7 +7,6 @@ namespace BoraCotacoes
 {
     public class Cotacao : AggregateRoot
     {
-        public int Id { get; set; }
         public CotacaoStatus Status { get; private set; }
         public string Numero { get; private set; }
 
@@ -47,7 +46,7 @@ namespace BoraCotacoes
         public void SolicitarRenda(int corretorId)
         {
             DataRendaSolicitada = DateTime.UtcNow;
-            ChangeStatus(CotacaoStatus.CotacaoSolicitada, DataRendaSolicitada);
+            ChangeStatus(CotacaoStatus.RendaSolicitada, DataRendaSolicitada);
             Status = CotacaoStatus.RendaSolicitada;
             CorretorId = corretorId;
         }
