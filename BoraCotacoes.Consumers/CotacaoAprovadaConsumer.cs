@@ -1,7 +1,7 @@
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Kafka;
 using MediatR;
-using BoraCotacoes.Handlers;
+using BoraCotacoes.Cotacoes.DomainEvents;
 
 namespace BoraCotacoes.Consumers
 {
@@ -10,11 +10,11 @@ namespace BoraCotacoes.Consumers
         [FunctionName(nameof(CotacaoAprovadaConsumer))]
         public void Run(
             [KafkaTrigger("%BrokerList%",
-                          "cotacao-aprovada",
+                          "cotacao-status-changed",
                           ConsumerGroup = nameof(CotacaoAprovadaConsumer))]
-                          CotacaoAprovadaNotification notification)
+                          CotacaoStatusChangedDomainEvent domainEvent)
         {
-            mediator.Send(notification);
+            //mediator.Send(notification);
         }
     }
 }

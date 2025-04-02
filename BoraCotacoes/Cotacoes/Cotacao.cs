@@ -1,11 +1,11 @@
 ﻿using BoraCotacoes.Cotacoes;
+using BoraCotacoes.Cotacoes.DomainEvents;
 using BoraCotacoes.Propostas;
 using CSharpFunctionalExtensions;
-using System.Threading.Tasks.Sources;
 
 namespace BoraCotacoes
 {
-    public class Cotacao
+    public class Cotacao : AggregateRoot
     {
         public int Id { get; set; }
         public CotacaoStatus Status { get; private set; }
@@ -37,7 +37,7 @@ namespace BoraCotacoes
         public Cotacao(int clienteId, TipoDoBem tipoDoBem, decimal preco)
         {
             DataCotacaoSolicitada = DateTime.UtcNow;
-            Status = CotacaoStatus.CotacaoSolicitada;
+            ChangeStatus(CotacaoStatus.CotacaoSolicitada, DataCotacaoSolicitada);
             Numero = GenerateNumero();
             ClienteId = clienteId;
             TipoDoBem = tipoDoBem;
@@ -47,6 +47,7 @@ namespace BoraCotacoes
         public void SolicitarRenda(int corretorId)
         {
             DataRendaSolicitada = DateTime.UtcNow;
+            ChangeStatus(CotacaoStatus.CotacaoSolicitada, DataRendaSolicitada);
             Status = CotacaoStatus.RendaSolicitada;
             CorretorId = corretorId;
         }
@@ -54,7 +55,7 @@ namespace BoraCotacoes
         public void InformarCompromissoFinanceiro(decimal rendaBrutaMensal, int prazoPretendido)
         {
             DataCompromissoFinanceiroInformado = DateTime.UtcNow;
-            Status = CotacaoStatus.CompromissoFinanceiroInformado;
+            ChangeStatus(CotacaoStatus.CompromissoFinanceiroInformado, DataCompromissoFinanceiroInformado);
             RendaBrutaMensal = rendaBrutaMensal;
             PrazoPretendido = prazoPretendido;
         }
@@ -67,7 +68,7 @@ namespace BoraCotacoes
                     .Tap(() =>
                     {
                         DataPrestacoesCalculadas = DateTime.UtcNow;
-                        Status = CotacaoStatus.PrestacoesCalculadas;
+                        ChangeStatus(CotacaoStatus.PrestacoesCalculadas, DataCotacaoAprovada);
                         TaxaJuros = taxaJuros;
                         PrazoMaximo = prazoMaximo;
                         PrestacaoPrazoPretendido = CalcularPrice(taxaJuros, PrazoPretendido);
@@ -78,7 +79,13 @@ namespace BoraCotacoes
         public void AprovarCotacao()
         {
             DataCotacaoAprovada = DateTime.UtcNow;
-            Status = CotacaoStatus.CotacaoAprovada;
+            ChangeStatus(CotacaoStatus.CotacaoAprovada, DataCotacaoAprovada);
+        }
+
+        private void ChangeStatus(CotacaoStatus newStatus, DateTime changedAt)
+        {
+            Status = newStatus;
+            AddDomainEvent(new CotacaoStatusChangedDomainEvent(Id, Status, changedAt));
         }
 
         /// <summary>

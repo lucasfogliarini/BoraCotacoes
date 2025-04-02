@@ -7,8 +7,8 @@
 
     public interface IDatabase
     {
-        Task<int> CommitAsync();
-        int Commit();
+        Task<int> CommitAsync(CancellationToken cancellationToken = default);
+        int Commit(CancellationToken cancellationToken = default);
         void Update(object entity);
         void Add(object entity);
     }

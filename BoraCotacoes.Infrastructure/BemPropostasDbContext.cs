@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CSharpFunctionalExtensions;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace BoraCotacoes.Infrastructure;
 
-public class BoraCotacoesDbContext(DbContextOptions options) : DbContext(options), IDatabase
+public class BoraCotacoesDbContext(DbContextOptions options, IMediator mediator) : DbContext(options), IDatabase
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -11,9 +13,24 @@ public class BoraCotacoesDbContext(DbContextOptions options) : DbContext(options
         modelBuilder.ApplyConfigurationsFromAssembly(thisAssembly);
     }
 
-    public async Task<int> CommitAsync()
+    public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
     {
-        return await SaveChangesAsync();
+        var domainEntities = ChangeTracker.Entries<AggregateRoot>()
+            .Where(x => x.Entity.DomainEvents.Any())
+            .ToList();
+
+        var domainEvents = domainEntities
+            .SelectMany(x => x.Entity.DomainEvents)
+            .ToList();
+
+        var result = await base.SaveChangesAsync(cancellationToken);
+
+        foreach (var domainEvent in domainEvents)
+            await mediator.Publish(domainEvent, cancellationToken);
+
+        domainEntities.ForEach(entity => entity.Entity.ClearDomainEvents());
+
+        return result;
     }
 
     public new void Add(object entity)
@@ -26,8 +43,8 @@ public class BoraCotacoesDbContext(DbContextOptions options) : DbContext(options
         base.Update(entity);
     }
 
-    public int Commit()
+    public int Commit(CancellationToken cancellationToken = default)
     {
-        return SaveChanges();
+        return CommitAsync().Result;
     }
 }
