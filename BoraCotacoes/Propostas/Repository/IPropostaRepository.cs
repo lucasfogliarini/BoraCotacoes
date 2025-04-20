@@ -1,6 +1,6 @@
 ﻿namespace BoraCotacoes.Propostas.Repository;
 
-public interface IPropostaRepository : IRepository
+public interface IPropostaRepository : IAddRepository<Proposta>
 {
     Task<Proposta?> FindAsync(int id);
 }

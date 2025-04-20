@@ -33,16 +33,6 @@ public class BoraCotacoesDbContext(DbContextOptions options, IMediator mediator)
         return result;
     }
 
-    public new void Add(object entity)
-    {
-        base.Add(entity);
-    }
-
-    public new void Update(object entity)
-    {
-        base.Update(entity);
-    }
-
     public int Commit(CancellationToken cancellationToken = default)
     {
         return CommitAsync().Result;

@@ -15,7 +15,6 @@ public class CalcularPrestacoesRequestHandler(ICotacaoRepository repository) : I
             .Tap(c =>
             {
                 c.CalcularPrestacoes(request.TaxaJuros, request.PrazoMaximo);
-                repository.CommitScope.Update(c);
                 repository.CommitScope.Commit();
             })
             .MapTry(c => new CalcularPrestacoesResponse(c.Id, c.Status, c.DataPrestacoesCalculadas, c.PrestacaoPrazoPretendido, c.PrestacaoPrazoMaximo));

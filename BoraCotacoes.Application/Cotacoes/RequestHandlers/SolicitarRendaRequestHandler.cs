@@ -15,7 +15,6 @@ public class SolicitarRendaRequestHandler(ICotacaoRepository repository) : IRequ
             .Tap(c =>
             {
                 c.SolicitarRenda(request.CorretorId);
-                repository.CommitScope.Update(c);
                 repository.CommitScope.Commit();
             })
             .MapTry(c => new SolicitarRendaResponse(c.Id, c.Status, c.DataRendaSolicitada));

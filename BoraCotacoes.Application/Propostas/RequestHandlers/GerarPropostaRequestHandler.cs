@@ -5,15 +5,15 @@ using Microsoft.Extensions.Logging;
 
 namespace BoraCotacoes.RequestHandlers;
 
-public class GerarPropostaRequestHandler(ICotacaoRepository repository, ILogger<GerarPropostaRequestHandler> logger) : IRequestHandler<GerarPropostaRequest, Result<GerarPropostaResponse>>
+public class GerarPropostaRequestHandler(ICotacaoRepository cotacaoRepository, IPropostaRepository propostaRepository, ILogger<GerarPropostaRequestHandler> logger) : IRequestHandler<GerarPropostaRequest, Result<GerarPropostaResponse>>
 {
     public async Task<Result<GerarPropostaResponse>> Handle(GerarPropostaRequest request, CancellationToken cancellationToken)
     {
         logger.LogInformation("Gerando proposta para cotacao {cotacaoId}", request.CotacaoId);
-        Result<Cotacao> result = await repository.FindAsync(request.CotacaoId);
+        Result<Cotacao> result = await cotacaoRepository.FindAsync(request.CotacaoId);
         var p = new Proposta(request.CotacaoId);
-        repository.CommitScope.Add(p);
-        await repository.CommitScope.CommitAsync();
+        propostaRepository.Add(p);
+        await propostaRepository.CommitScope.CommitAsync();
         return new GerarPropostaResponse(p.Id, p.Numero, p.Status);
     }
 }

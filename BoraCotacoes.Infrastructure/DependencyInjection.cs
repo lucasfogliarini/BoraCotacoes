@@ -16,7 +16,7 @@ public static class DependencyInjection
     }
     public static void AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IPropostaRepository, PropostasRepository>();
+        services.AddScoped<IPropostaRepository, PropostaRepository>();
         services.AddScoped<ICotacaoRepository, CotacaoRepository>();
     }
     public static void AddDbContext(this IServiceCollection services)
