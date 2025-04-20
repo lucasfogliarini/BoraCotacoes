@@ -1,4 +1,6 @@
-# [Sobre esse repo por ChatGPT 4o](https://chatgpt.com/share/68000ee5-4c3c-8013-a953-c5ea369ac433)
+## Análise técnica deste repositório
+
+- [ChatGPT 4o](http://chatgpt.com/?q=Analise%20tecnicamente%20esse%20reposit%C3%B3rio%20github.com/lucasfogliarini/BoraCotacoes)
 
 ### Referências
 
