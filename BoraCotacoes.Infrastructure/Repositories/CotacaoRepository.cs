@@ -4,7 +4,7 @@ namespace BoraCotacoes.Infrastructure.Repositories;
 
 public class CotacaoRepository(BoraCotacoesDbContext boraCotacoesDbContext) : ICotacaoRepository
 {
-    public IDatabase Database => boraCotacoesDbContext;
+    public ICommitScope CommitScope => boraCotacoesDbContext;
 
     public void Add(Cotacao cotacao)
     {

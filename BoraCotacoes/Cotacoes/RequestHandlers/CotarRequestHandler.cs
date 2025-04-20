@@ -10,8 +10,8 @@ public class CotarRequestHandler(ICotacaoRepository repository) : IRequestHandle
     public async Task<CotarResponse> Handle(CotarRequest request, CancellationToken cancellationToken)
     {
         var cotacao = new Cotacao(request.ClienteId, request.TipoDoBem, request.Preco);
-        repository.Database.Add(cotacao);
-        await repository.Database.CommitAsync();
+        repository.CommitScope.Add(cotacao);
+        await repository.CommitScope.CommitAsync();
         return new CotarResponse(cotacao.Id, cotacao.Numero, cotacao.Status, cotacao.DataCotacaoSolicitada);
     }
 }

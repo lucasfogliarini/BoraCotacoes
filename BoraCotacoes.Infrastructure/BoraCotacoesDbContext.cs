@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace BoraCotacoes.Infrastructure;
 
-public class BoraCotacoesDbContext(DbContextOptions options, IMediator mediator) : DbContext(options), IDatabase
+public class BoraCotacoesDbContext(DbContextOptions options, IMediator mediator) : DbContext(options), ICommitScope
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

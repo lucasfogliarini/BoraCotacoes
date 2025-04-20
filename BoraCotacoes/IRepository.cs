@@ -2,10 +2,10 @@
 {
     public interface IRepository
     {
-        IDatabase Database { get; }
+        ICommitScope CommitScope { get; }
     }
 
-    public interface IDatabase
+    public interface ICommitScope
     {
         Task<int> CommitAsync(CancellationToken cancellationToken = default);
         int Commit(CancellationToken cancellationToken = default);

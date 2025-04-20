@@ -4,7 +4,7 @@ namespace BoraCotacoes.Infrastructure.Repositories;
 
 public class PropostasRepository(BoraCotacoesDbContext BoraCotacoesDbContext) : IPropostaRepository
 {
-    public IDatabase Database => BoraCotacoesDbContext;
+    public ICommitScope CommitScope => BoraCotacoesDbContext;
 
     public void Add(Proposta proposta)
     {

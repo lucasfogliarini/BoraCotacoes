@@ -14,8 +14,8 @@ public class AprovarPropostaRequestHandler(IPropostaRepository repository) : IRe
             .Tap(p =>
             {
                 p.Aprovar();
-                repository.Database.Update(p);
-                repository.Database.Commit();
+                repository.CommitScope.Update(p);
+                repository.CommitScope.Commit();
             })
             .MapTry(p => new AprovarPropostaResponse(p.Id, p.Numero, p.Status, p.DataAprovacao.Value));
     }

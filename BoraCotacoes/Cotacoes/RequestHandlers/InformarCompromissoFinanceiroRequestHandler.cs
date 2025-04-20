@@ -15,8 +15,8 @@ public class InformarCompromissoFinanceiroRequestHandler(ICotacaoRepository repo
             .Tap(c =>
             {
                 c.InformarCompromissoFinanceiro(request.RendaBrutaMensal, request.PrazoPretendido);
-                repository.Database.Update(c);
-                repository.Database.Commit();
+                repository.CommitScope.Update(c);
+                repository.CommitScope.Commit();
             })
             .MapTry(c => new InformarCompromissoFinanceiroResponse(c.Id, c.Status, c.DataCompromissoFinanceiroInformado));
     }

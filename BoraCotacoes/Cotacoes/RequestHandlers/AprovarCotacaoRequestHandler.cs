@@ -15,8 +15,8 @@ public class AprovarCotacaoRequestHandler(ICotacaoRepository repository) : IRequ
             .Tap(c =>
             {
                 c.AprovarCotacao();
-                repository.Database.Update(c);
-                repository.Database.Commit();
+                repository.CommitScope.Update(c);
+                repository.CommitScope.Commit();
             })
             .MapTry(c => new AprovarCotacaoResponse(c.Id, c.Status, c.DataCotacaoAprovada));
     }

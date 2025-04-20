@@ -12,8 +12,8 @@ public class GerarPropostaRequestHandler(ICotacaoRepository repository, ILogger<
         logger.LogInformation("Gerando proposta para cotacao {cotacaoId}", request.CotacaoId);
         Result<Cotacao> result = await repository.FindAsync(request.CotacaoId);
         var p = new Proposta(request.CotacaoId);
-        repository.Database.Add(p);
-        await repository.Database.CommitAsync();
+        repository.CommitScope.Add(p);
+        await repository.CommitScope.CommitAsync();
         return new GerarPropostaResponse(p.Id, p.Numero, p.Status);
     }
 }
