@@ -2,7 +2,7 @@
 using CSharpFunctionalExtensions;
 using MediatR;
 
-namespace BoraCotacoes.Handlers;
+namespace BoraCotacoes.RequestHandlers;
 
 public class BuscarCotacaoRequestHandler(ICotacaoRepository repository) : IRequestHandler<BuscarCotacaoRequest, Result<BuscarCotacaoResponse>>
 {

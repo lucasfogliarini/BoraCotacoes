@@ -14,8 +14,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BoraCotacoes.Application\BoraCotacoes.Application.csproj" />
     <ProjectReference Include="..\BoraCotacoes.Infrastructure\BoraCotacoes.Infrastructure.csproj" />
-    <ProjectReference Include="..\BoraCotacoes\BoraCotacoes.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

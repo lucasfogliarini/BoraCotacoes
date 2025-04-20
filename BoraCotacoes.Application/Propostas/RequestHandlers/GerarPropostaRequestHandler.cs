@@ -3,7 +3,7 @@ using CSharpFunctionalExtensions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace BoraCotacoes.Handlers;
+namespace BoraCotacoes.RequestHandlers;
 
 public class GerarPropostaRequestHandler(ICotacaoRepository repository, ILogger<GerarPropostaRequestHandler> logger) : IRequestHandler<GerarPropostaRequest, Result<GerarPropostaResponse>>
 {

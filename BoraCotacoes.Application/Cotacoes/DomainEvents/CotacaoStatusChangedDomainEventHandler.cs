@@ -12,4 +12,4 @@ public class CotacaoStatusChangedDomainEventHandler(IProducer producer, ILogger<
     }
 }
 
-public record CotacaoStatusChangedDomainEvent(int Id, CotacaoStatus Status, DateTime ChangedAt) : IDomainEvent { }
+

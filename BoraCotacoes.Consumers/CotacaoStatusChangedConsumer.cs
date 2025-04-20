@@ -2,7 +2,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Kafka;
 using MediatR;
 using BoraCotacoes.Cotacoes.DomainEvents;
-using BoraCotacoes.Handlers;
+using BoraCotacoes.RequestHandlers;
 using BoraCotacoes.Cotacoes;
 
 namespace BoraCotacoes.Consumers

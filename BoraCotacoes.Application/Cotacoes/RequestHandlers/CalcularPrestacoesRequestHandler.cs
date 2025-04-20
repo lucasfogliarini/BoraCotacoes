@@ -3,7 +3,7 @@ using BoraCotacoes.Propostas.Repository;
 using CSharpFunctionalExtensions;
 using MediatR;
 
-namespace BoraCotacoes.Handlers;
+namespace BoraCotacoes.RequestHandlers;
 
 public class CalcularPrestacoesRequestHandler(ICotacaoRepository repository) : IRequestHandler<CalcularPrestacoesRequest, Result<CalcularPrestacoesResponse>>
 {

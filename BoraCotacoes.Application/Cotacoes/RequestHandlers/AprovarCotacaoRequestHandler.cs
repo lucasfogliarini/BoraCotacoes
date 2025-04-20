@@ -3,7 +3,7 @@ using BoraCotacoes.Propostas.Repository;
 using CSharpFunctionalExtensions;
 using MediatR;
 
-namespace BoraCotacoes.Handlers;
+namespace BoraCotacoes.RequestHandlers;
 
 public class AprovarCotacaoRequestHandler(ICotacaoRepository repository) : IRequestHandler<AprovarCotacaoRequest, Result<AprovarCotacaoResponse>>
 {

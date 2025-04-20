@@ -3,7 +3,7 @@ using BoraCotacoes.Propostas;
 using BoraCotacoes.Propostas.Repository;
 using MediatR;
 
-namespace BoraCotacoes.Handlers;
+namespace BoraCotacoes.RequestHandlers;
 
 public class CotarRequestHandler(ICotacaoRepository repository) : IRequestHandler<CotarRequest, CotarResponse>
 {

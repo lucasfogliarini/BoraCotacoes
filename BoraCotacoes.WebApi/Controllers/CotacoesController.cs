@@ -1,4 +1,4 @@
-using BoraCotacoes.Handlers;
+using BoraCotacoes.RequestHandlers;
 using CSharpFunctionalExtensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
