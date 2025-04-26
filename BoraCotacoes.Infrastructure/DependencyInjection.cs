@@ -14,17 +14,20 @@ public static class DependencyInjection
         services.AddRepositories();
         services.AddProducer();
     }
-    public static void AddRepositories(this IServiceCollection services)
+    private static void AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IPropostaRepository, PropostaRepository>();
         services.AddScoped<ICotacaoRepository, CotacaoRepository>();
     }
-    public static void AddDbContext(this IServiceCollection services)
+    private static void AddDbContext(this IServiceCollection services)
     {
         services.AddDbContext<BoraCotacoesDbContext>(options => options.UseInMemoryDatabase(nameof(BoraCotacoesDbContext)));
     }
+    private static void AddOpenTelemetry(this IServiceCollection services)
+    {
+    }
 
-    public static void AddProducer(this IServiceCollection services)
+    private static void AddProducer(this IServiceCollection services)
     {
         services.AddScoped<IProducer>(provider =>
             new KafkaProducer("kafka:9092"));
